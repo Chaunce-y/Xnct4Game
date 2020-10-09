@@ -1,0 +1,40 @@
+/* .gamePiece1 {
+  background-color: red
+}
+
+.gamePiece2 {
+  background-color: yellow
+} */
+
+body {
+  margin: 0;
+  overflow: hidden
+}
+
+canvas {
+  display: block
+}
+
+
+/*
+div {
+  background-color: grey;
+  /* justify-content: center; */
+/*
+}
+
+.container {
+  background-color: #0099ff;
+  height: 700px;
+  width: 700px;
+
+}
+
+.col,
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid black;
+  justify-content: space-around;
+  align-items: center
+} */
