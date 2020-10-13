@@ -110,13 +110,15 @@ const player1Color = 'yellow'
 const player2Color = 'red'
 const playerColor = []
 let activePlayer
+const $td = $('<td>')
+const $tr = $('<tr>')
 
-const startGame = () => {
+const startGame = () => { // starts the game 
   if (gameStatus === inactive) {
     return inactive
   }
   for (let row = 0; row < 6; row++) {
-    gameBoard[row] = []
+    gameBoard[row] = [] //creates an empty array for each row
     for (let col = 0; col <= 6; col++) {
       gameBoard[row][col] = 0
     }
@@ -133,10 +135,9 @@ let $container = $('.container')
 const drawBoard = () => {
   // winCheck()
   for (let row = 0; row < 6; row++) {
-    $('.gameBoard').append(`<tr>${row}</tr>`)
+    $('tr').addClass(row)
     for (let col = 0; col <= 6; col++) {
-      $('tr').append(`<td>${col}</td>`)
-      $container.append('<div></div>').text('Connect 4!!')
+      $('td').append(`<td>${col}</td>`)
     }
   }
 }
@@ -221,3 +222,31 @@ $(() => {
 
 //user selects column, on click returns  column number
 // build grid and cells
+
+/* Create a new board of squares, 42 squares where you have one container representing
+the whole thing. Then 7 containers to represent the width from left to right one square
+across and 6 up. Each of these 7 containers are going to have an event handler.
+On the onclick event handler, one square going up turns red or black depending on
+who's turn it is.
+id="row=0, col=1"
+win = False -> True
+player1 = true/false
+Onclick function:
+	move = evenHandler
+	if player1{
+		player1 = false
+	}
+	else{
+		player1 = True
+	}
+	- function (addSquare)
+		Check to see what player
+		and get red or black
+	function (makeMove)
+		- Making the move
+		- function (addSquare)
+		- function (displayBoard)
+	function (checkMove(move))
+	if win:
+		function (Win)
+			function (displayWinningPage */

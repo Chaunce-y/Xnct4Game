@@ -3,17 +3,55 @@ body {
   /* resize: both; */
 }
 
+h1 {
+  font-family: ITC Avant Garde Gothic;
+}
+
+table {
+  border-spacing: 0
+}
+
+td {
+  /* display: flex; */
+  background: white;
+  /* justify-content: space-between; */
+  padding: 0;
+  height: 108px;
+  width: 108px;
+  border: 7px solid rgb(61, 138, 254);
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 7px 4px #c3c4c9d0
+}
+
+.container {
+  display: inline-block;
+  margin: 0 auto
+}
+
 .gameBoard {
   position: center;
   width: 650px;
   height: 650px;
-  background: rgb(61,138,254);
+  background: rgb(61, 138, 254);
   border: 1px solid black;
   box-shadow: 5px 5px black;
   /* animation: redBlue 10s infinite */
   /* resize: both */
   /*overflow: auto; w3schools.com */
- }
+}
+
+#player1 {
+  background-color: yellow;
+  /* border: inset 6px solid black */
+}
+
+#player2 {
+  background-color: red;
+  border: 3px solid black
+}
+
+
+
 /* @keyframes redBlue {
 from {background-color: green;}
 to {background-color: black;}
@@ -28,8 +66,6 @@ to {background-color: black;}
 div {
   background-color: grey;
   /* justify-content: center; */
-
-
 
 /* .container {
   background-color: #0099ff;
