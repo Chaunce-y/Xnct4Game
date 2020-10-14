@@ -119,7 +119,6 @@ let $td = $('td') // grab all the cells
 const drawBoard = () => {
   for (let i = 0; i <= $td.length; i++) { // for each element in td.length (total of 42 elements):
     // $td.eq(i).addClass('empty')
-    // $tr.attr(`id= row: ${row} `)
 
     $td.eq(i).on('click', (e) => { // add click event handler to each td element  
       // changeClass()
