@@ -11,6 +11,10 @@ body {
   /* resize: both; */
 }
 
+#start {
+  padding: 4px 12px
+}
+
 h1,
 h3 {
   font-family: 'ITC Avant Garde Gothic Bold', 'Helvetica Neue';

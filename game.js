@@ -102,56 +102,86 @@ player2 - 2. will be red until functionality is built in to enable selection
  */
 
 // on page load the html elements (decorative text, xnct4 board table, piece examples) then JS/JQuery
-let gameBoard = []
+// let gameBoard = []
 const active = true
 const inactive = false
 let gameStatus = inactive
-const player1Color = 'black'
-const player2Color = 'red'
-const playerColor = []
-let activePlayer = 1
+let currentBoard = [5, 5, 5, 5, 5, 5, 5]
+
+const playerColor = {
+  player1Color: 'black',
+  player2Color: 'red'
+}
+let activePlayer = playerColor.player1Color
 let $tr = $('tr') // grab the table row element
 const $container = $('.container') // grab the container element
+// $container.css('display', 'none') // hide the board until game start
 let $h3 = $('h3') // grab the H3 element
+// $h3.css('display', 'none')
 let $td = $('td') // grab all the cells
+// let $startButton = $('button').appendTo('<div>').addClass('button') // grab the H1 element
+// $('.button').text('Start!') // add start button to the page
 
+// const startGame = () => {
+// $container.css('display', 'inline-block')
+// $h3.css('display', 'inline-block')
+// }
 // let $empty = $('.empty')
+
+const dropPiece = (event, column, row) => {
+
+  let $coor = $(`#${row}${column}`)
+
+  console.log($coor)
+  $coor.css('background-color', activePlayer)
+  currentBoard[column] -= 1
+}
+
+
+
+
 const drawBoard = () => {
-  for (let i = 0; i <= $td.length; i++) { // for each element in td.length (total of 42 elements):
-    // $td.eq(i).addClass('empty')
+  // for (let i = 0; i <= $td.length; i++) { // for each element in td.length (total of 42 elements):
+  // $(e.target).addClass('empty')
 
-    $td.eq(i).on('click', (e) => { // add click event handler to each td element  
-      // changeClass()
-      // e.target.toggleClass
-      if (activePlayer == 1) {
-        $td.eq(i).toggleClass('player1')
-        activePlayer = 2
-      } else if (activePlayer == 2) {
-        $td.eq(i).toggleClass('player2')
-        activePlayer = 1
-      } // on click, add player class and color to cell
+  $('.cell').on('click', (e) => { // add click event handler to each td element  
+    // changeClass()
+    // e.target.toggleClass
+    let id = $(e.target).attr('id')
+    let column = parseInt(id.charAt(1))
+    let row = currentBoard[column]
+    if (row >= 0) {
+      playerTurn()
+      $(e.target).toggleClass(activePlayer)
+      // This is where i would 
       console.log(`${e.target.parentElement.rowIndex}, ${e.target.cellIndex}, ${e.target}`) // check
-      dropPiece(e)
-    })
+      dropPiece(e, column, row)
+    }
+  })
+}
+// }
+
+const playerTurn = () => {
+  if (activePlayer == playerColor.player1Color) {
+    activePlayer = playerColor.player2Color
+  } else {
+    activePlayer = playerColor.player1Color
   }
+
 }
 
-const dropPiece = (e) => {
-  let column = e.target.cellIndex //grab cell index # and set it to variable column
-  let row = [] // empty container for cell index numbers
-  console.log(column) // check
+const winCheck = () => {
 
-  for (let i = 5; i > -1; i--) { // for every row counting up from the bottom of the table:
-    // if (column + 1)
 
-    // // if ($tr.eq(i).children().css('background-color') == 'rgb(167, 167, 29)') { // if any of the row's children have a background color of yellow
-    // // row.push($tr.eq(column).children()) // push the child's index number in the empty 'row' array
-    // console.log(row) // function check
-    // if (activePlayer == 1) { // if the active player is player 1:
-    // // row[0].css('background-color', player1Color) // change the element's background color to player1's color
-    // activePlayer = 2 // change to player 2
-  }
 }
+
+
+
+
+
+
+
+
 // if (activePlayer == 2) { // if the active player is player 1:
 // row[0].css('background-color', player2Color) // change the element's background color
 // activePlayer = 1 // change to player 1
@@ -270,4 +300,4 @@ Onclick function:
 	function (checkMove(move))
 	if win:
 		function (Win)
-			function (displayWinningPage */
+function (displayWinningPage */
