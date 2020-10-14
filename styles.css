@@ -1,11 +1,24 @@
+@font-face {
+  font-family: "ITC Avant Garde Gothic Bold";
+  src: url('./ITC Avant Garde Gothic Bold.otf') format("opentype");
+}
+
 body {
   text-align: center;
+  background-image: url('./connect-four-board-game-play-child-flickr-dqmountaingirl.jpg');
+  background-size: 200px;
+  background-repeat: repeat;
   /* resize: both; */
 }
 
-h1 {
-  font-family: ITC Avant Garde Gothic;
+h1,
+h3 {
+  font-family: 'ITC Avant Garde Gothic Bold', 'Helvetica Neue';
+  color: white;
+  text-shadow: 0 0 10px black;
+  font-size: 45px;
 }
+
 
 table {
   border-spacing: 0
@@ -13,41 +26,40 @@ table {
 
 td {
   /* display: flex; */
-  background: white;
+  background: rgb(167, 167, 29);
   /* justify-content: space-between; */
   padding: 0;
-  height: 108px;
-  width: 108px;
-  border: 7px solid rgb(61, 138, 254);
+  border: 7px solid yellow;
   border-radius: 50%;
-  box-shadow: inset 0px 0px 7px 4px #c3c4c9d0
+  box-shadow: inset 0px 0px 7px 4px #4d4e57e3
 }
 
 .container {
   display: inline-block;
-  margin: 0 auto
+  margin: 0 auto;
+  size: auto;
 }
 
 .gameBoard {
   position: center;
   width: 650px;
   height: 650px;
-  background: rgb(61, 138, 254);
-  border: 1px solid black;
-  box-shadow: 5px 5px black;
+  background: yellow;
+  border: 8px solid rgb(255, 238, 0);
+  box-shadow: 5px 5px rgb(114, 112, 19);
   /* animation: redBlue 10s infinite */
   /* resize: both */
   /*overflow: auto; w3schools.com */
 }
 
-#player1 {
-  background-color: yellow;
+.player1 {
+  background-color: rgb(27, 27, 27);
   /* border: inset 6px solid black */
 }
 
-#player2 {
+.player2 {
   background-color: red;
-  border: 3px solid black
+  /* border: 3px solid black */
 }
 
 

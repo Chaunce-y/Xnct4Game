@@ -97,7 +97,7 @@ col
 activePlayer
 cell
 gameStatus - will return active or inactive. if active is true, startGame function will not run and game will continue to loop until a player wins
-player1 - 1. will be yellow until functionality is built in to enable selection
+player1 - 1. will be black until functionality is built in to enable selection
 player2 - 2. will be red until functionality is built in to enable selection
  */
 
@@ -106,67 +106,89 @@ let gameBoard = []
 const active = true
 const inactive = false
 let gameStatus = inactive
-const player1Color = 'yellow'
+const player1Color = 'black'
 const player2Color = 'red'
 const playerColor = []
-let activePlayer
-const $td = $('<td>')
-const $tr = $('<tr>')
+let activePlayer = 1
+let $tr = $('tr') // grab the table row element
+const $container = $('.container') // grab the container element
+let $h3 = $('h3') // grab the H3 element
+let $td = $('td') // grab all the cells
 
-const startGame = () => { // starts the game 
-  if (gameStatus === inactive) {
-    return inactive
-  }
-  for (let row = 0; row < 6; row++) {
-    gameBoard[row] = [] //creates an empty array for each row
-    for (let col = 0; col <= 6; col++) {
-      gameBoard[row][col] = 0
-    }
-  }
-  drawBoard()
-  activePlayer = 1
-  // nextTurn()
-}
-
-let $container = $('.container')
-
-
-//draw the connect4 board to the DOM on pageload
+// let $empty = $('.empty')
 const drawBoard = () => {
-  // winCheck()
-  for (let row = 0; row < 6; row++) {
-    $('tr').addClass(row)
-    for (let col = 0; col <= 6; col++) {
-      $('td').append(`<td>${col}</td>`)
-    }
-  }
-}
+  for (let i = 0; i <= $td.length; i++) { // for each element in td.length (total of 42 elements):
+    // $td.eq(i).addClass('empty')
+    // $tr.attr(`id= row: ${row} `)
 
-const nextTurn = () => {
-  if (gameStatus == active) {
-
-
-  }
-}
-
-const drop = () => {
-  for (row = 5; row >= 0; row--) {
-    if (gameBoard[row][col] == 0) {
-      gameBoard[row][col] = activePlayer
-      drawBoard()
+    $td.eq(i).on('click', (e) => { // add click event handler to each td element  
+      // changeClass()
+      // e.target.toggleClass
       if (activePlayer == 1) {
-        activePlayer == 2
-      } else {
-        activePlayer == 1
-      }
-      nextTurn()
-      return true
-    }
+        $td.eq(i).toggleClass('player1')
+        activePlayer = 2
+      } else if (activePlayer == 2) {
+        $td.eq(i).toggleClass('player2')
+        activePlayer = 1
+      } // on click, add player class and color to cell
+      console.log(`${e.target.parentElement.rowIndex}, ${e.target.cellIndex}, ${e.target}`) // check
+      dropPiece(e)
+    })
   }
 }
-$(() => {
-  startGame
-})
+
+const dropPiece = (e) => {
+  let column = e.target.cellIndex //grab cell index # and set it to variable column
+  let row = [] // empty container for cell index numbers
+  console.log(column) // check
+
+  for (let i = 5; i > -1; i--) { // for every row counting up from the bottom of the table:
+    // if (column + 1)
+
+    // // if ($tr.eq(i).children().css('background-color') == 'rgb(167, 167, 29)') { // if any of the row's children have a background color of yellow
+    // // row.push($tr.eq(column).children()) // push the child's index number in the empty 'row' array
+    // console.log(row) // function check
+    // if (activePlayer == 1) { // if the active player is player 1:
+    // // row[0].css('background-color', player1Color) // change the element's background color to player1's color
+    // activePlayer = 2 // change to player 2
+  }
+}
+// if (activePlayer == 2) { // if the active player is player 1:
+// row[0].css('background-color', player2Color) // change the element's background color
+// activePlayer = 1 // change to player 1
+// e.preventDefault()
+// })
+// }
+
+// $(() => {
+$td.on('click', drawBoard())
+// })
+
+// const nextTurn = () => {
+// if (gameStatus == active) {
+
+
+// }
+// }
+
+// const drop = () => {
+// for (row = 5; row >= 0; row--) {
+// if (gameBoard[row][col] == 0) {
+// gameBoard[row][col] = activePlayer
+// drawBoard()
+// if (activePlayer == 1) {
+// activePlayer == 2
+// } else {
+// activePlayer == 1
+// }
+// nextTurn()
+// return true
+// }
+// }
+// }
+// $(() => {
+// startGame
+// })
 // const winCheck = () => {
 
 // }
