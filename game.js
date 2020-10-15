@@ -1,266 +1,236 @@
-console.log('game works')
-// console.log($)
-// const $canvas = $('canvas')
-// console.log($canvas)
-// const ctx = $canvas[0].getContext('2d');
-// console.log(ctx)
-// const makeX = () => {
-//   ctx.beginPath()
-//   ctx.moveTo(100, 100)
-//   ctx.lineTo(300, 300)
-//   ctx.strokeStyle = 'blue'
-//   ctx.lineWidth = 6
-//   ctx.stroke()
-//   ctx.beginPath()
-//   ctx.moveTo(100, 300)
-//   ctx.lineTo(300, 100)
-
-//   // ctx.lineWidth = 6
-//   ctx.stroke()
-
-// }
-
-
-// const makeGrid = () => {
-
-//   ctx.strokeStyle = "black"
-//   ctx.lineWidth = 6
-//   //draw horizontal lines
-//   for (let i = 0; i <= $canvas.width; i += 50) {
-//     ctx.beginPath()
-//     ctx.moveTo(i, 0)
-//     ctx.lineTo(i, $canvas.height)
-//     ctx.stroke()
-//   }
-//   for (let i = 0; i <= $canvas.height; i += 50) {
-//     ctx.beginPath()
-//     ctx.moveTo(0, i)
-//     ctx.lineTo($canvas.width, i)
-//     ctx.stroke()
-//   }
-// }
-
-// // $('.make-x').click(makeGrid)
-// $(() => {
-//   $('button').on('click', (makeGrid))
-//   // console.log(event.currentTarget)
-// })
-// //(makeGrid))
-// // makeGrid()
-// // // makes a grid of 1px black lines with 49px between each parallel line
-// // function makeGrid() {
-// //   ctx.strokeStyle = "black";
-// //   ctx.lineWidth = 1
-
-// //   // draw vertical lines
-// //   for (let i = 0; i <= canvas.width; i += 50) {
-// //     ctx.beginPath();
-// //     ctx.moveTo(i, 0);
-// //     ctx.lineTo(i, canvas.height);
-// //     ctx.stroke();
-// //   }
-// //   // draw horizontal lines
-// //   for (let i = 0; i <= canvas.height; i += 50) {
-// //     ctx.beginPath();
-// //     ctx.moveTo(0, i);
-// //     ctx.lineTo(canvas.width, i);
-// //     ctx.stroke();
-// //   }
-
-// // }
-
-// // // document.getElementById('make-x').addEventListener('click', (event) => {
-// // //   makeX();
-// // // })
-// // document.getElementById('make-grid').addEventListener('click', (event) => {
-// //   makeGrid();
-// // })
-
 //Connect 4
-
 //Functions:
-/* 
+/*
+getGrid()
 drawBoard()
 startGame() - will begin the game, and call all related functions
-nextTurn() - will end current turn and begin a new one until game is over
-drop() - on click, will start the animation that drops the game piece in the selected column in the last available row
-resetGame()
-winCheck() - will check if a player has won. if output is true, game will end (endGame function), celebratory text will be displayed, game will be reset (resetGame() function)
-selectCol() - selected col for piece to be dropped in, occurs during turn
-endGame()
-gameStatus()
+playerTurn() - will end current turn and begin a new one until game is over
+dropPiece() - on click, will start the animation that drops the game piece in the selected column in the last available row
+checkWin() - will check if a player has won. if output is true, game will end (endGame function), celebratory text will be displayed, game will be reset (resetGame() function)
+endGame() - ends the game and displays win text in place of game board
 */
-//Constants
-/* 
-row
-col
-activePlayer
-cell
-gameStatus - will return active or inactive. if active is true, startGame function will not run and game will continue to loop until a player wins
-player1 - 1. will be black until functionality is built in to enable selection
-player2 - 2. will be red until functionality is built in to enable selection
- */
 
-// on page load the html elements (decorative text, xnct4 board table, piece examples) then JS/JQuery
-// let gameBoard = []
-const active = true
-const inactive = false
-let gameStatus = inactive
-let currentBoard = [5, 5, 5, 5, 5, 5, 5]
+// constants
 
 const playerColor = {
-  player1Color: 'black',
-  player2Color: 'red'
+  player1Color: 'Black',
+  player2Color: 'Red'
 }
 let activePlayer = playerColor.player1Color
-let $tr = $('tr') // grab the table row element
-const $container = $('.container') // grab the container element
-// $container.css('display', 'none') // hide the board until game start
-let $h3 = $('h3') // grab the H3 element
-// $h3.css('display', 'none')
-let $td = $('td') // grab all the cells
-// let $startButton = $('button').appendTo('<div>').addClass('button') // grab the H1 element
-// $('.button').text('Start!') // add start button to the page
+let currentBoard = [5, 5, 5, 5, 5, 5, 5]
+let $td = $('td')
+let $h3 = $('h3')
+let $h1 = $('h1')
+const $container = $('.container')
 
-// const startGame = () => {
-// $container.css('display', 'inline-block')
-// $h3.css('display', 'inline-block')
-// }
-// let $empty = $('.empty')
+// functions
 
-const dropPiece = (event, column, row) => {
+const getGrid = (rows, columns) => {
+  let grid = [...Array(rows)].map(e => Array(columns).fill(0))
+  return grid
+}
 
-  let $coor = $(`#${row}${column}`)
+let grid = getGrid(6, 7)
 
-  console.log($coor)
-  $coor.css('background-color', activePlayer)
+const dropPiece = (event, column, row, currentPlayer) => {
+  let $coord = $(`#${row}${column}`)
+  grid[row][column] = currentPlayer
+  $coord.css('background-color', activePlayer)
   currentBoard[column] -= 1
 }
 
-
-
-
-const drawBoard = () => {
-  // for (let i = 0; i <= $td.length; i++) { // for each element in td.length (total of 42 elements):
-  // $(e.target).addClass('empty')
-
-  $('.cell').on('click', (e) => { // add click event handler to each td element  
-    // changeClass()
-    // e.target.toggleClass
-    let id = $(e.target).attr('id')
-    let column = parseInt(id.charAt(1))
-    let row = currentBoard[column]
-    if (row >= 0) {
-      playerTurn()
-      $(e.target).toggleClass(activePlayer)
-      // This is where i would 
-      console.log(`${e.target.parentElement.rowIndex}, ${e.target.cellIndex}, ${e.target}`) // check
-      dropPiece(e, column, row)
-    }
-  })
+const timeRefresh = (timeoutPeriod) => {
+  setTimeout("location.reload(true);", timeoutPeriod);
 }
-// }
+
+const endGame = () => {
+  $container.empty()
+  $h1.text(`${activePlayer} WON!!!`)
+  $container.text('THANKS 4 PLAYING!!!')
+  timeRefresh(3000)
+  // let $playAgain = $('body').append('<button class=refresh>')
+  // const refreshPage = () => {
+  // location.reload()
+  // }
+  // $playAgain.on('click', refreshPage)
+}
+
+const checkUpwardDiagonal = (column, row, currentPlayer) => {
+  let checkWin = 1
+  let upward = row - 1
+  let downward = row + 1
+  for (let i = column + 1; i == grid[0].length; i++) {
+    if (upward < 0) {
+      break
+    }
+    if (grid[upward][i] === currentPlayer) {
+      checkWin += 1
+    } else {
+      break
+    }
+    upward -= 1
+  }
+  for (let i = column - 1; i >= 0; i--) {
+    if (downward >= grid.length) {
+      break
+    }
+    if (grid[downward][i] === currentPlayer) {
+      checkWin += 1
+    } else {
+      break
+    }
+    downward += 1
+  }
+  if (checkWin >= 4) {
+    $h3.text(`${activePlayer} WINS!!!`)
+    // console.log(`${activePlayer} wins!!`, checkWin)
+    endGame()
+  }
+}
+
+const checkHorizontal = (column, row, currentPlayer) => {
+  let checkWin = 1
+  for (let i = column - 1; i >= 0; i--) {
+    if (grid[row][i] === currentPlayer) {
+      checkWin += 1
+    } else {
+      break
+    }
+  }
+  for (let i = column + 1; i < grid[0].length; i++) {
+    if (grid[row][i] === currentPlayer) {
+      checkWin += 1
+    } else {
+      break
+    }
+  }
+  if (checkWin >= 4) {
+    $h3.text(`${activePlayer} WINS!!!`)
+    console.log(`${activePlayer} wins!!`, checkWin)
+    endGame()
+  }
+}
+
+const checkVertical = (column, row, currentPlayer) => {
+  let checkWin = 1
+  for (let i = row - 1; i >= 0; i--) {
+    if (grid[i][column] === currentPlayer) {
+      console.log(row, column)
+      checkWin += 1
+    } else {
+      break
+    }
+  }
+  for (let i = row + 1; i < grid.length; i++) {
+    if (grid[i][column] === currentPlayer) {
+      checkWin += 1
+    } else {
+      break
+    }
+  }
+  if (checkWin >= 4) {
+    $h3.text(`${activePlayer} WINS!!!`)
+    console.log(`${activePlayer} wins!!`, checkWin)
+    endGame()
+  }
+}
+
+const checkWin = (column, row, currentPlayer) => {
+  // Check Vertical
+  checkVertical(column, row, currentPlayer)
+  checkHorizontal(column, row, currentPlayer)
+  checkUpwardDiagonal(column, row, currentPlayer)
+}
+
+const startGame = () => {
+
+  const drawBoard = () => {
+    $('.cell').on('click', (e) => {
+      let id = $(e.target).attr('id')
+      let column = parseInt(id.charAt(1))
+      let row = currentBoard[column]
+      if (row >= 0) {
+        currentPlayer = playerTurn()
+        $(e.target).toggleClass(activePlayer)
+        dropPiece(e, column, row, currentPlayer)
+        checkWin(column, row, currentPlayer)
+      }
+    })
+  }
+  $td.on('click', drawBoard())
+}
 
 const playerTurn = () => {
   if (activePlayer == playerColor.player1Color) {
+    $h3.text(`Current player: ${activePlayer}`)
     activePlayer = playerColor.player2Color
+    // Return integer 2 represents player 2
+    return 2
   } else {
+    $h3.text(`Current player: ${activePlayer}`)
     activePlayer = playerColor.player1Color
+    // Return integer 1 represents player 1
+    return 1
   }
-
 }
 
-const winCheck = () => {
-
-
-}
-
-
+$(() => {
+  startGame()
+})
 
 
 
 
 
 
-// if (activePlayer == 2) { // if the active player is player 1:
-// row[0].css('background-color', player2Color) // change the element's background color
-// activePlayer = 1 // change to player 1
-// e.preventDefault()
-// })
-// }
-
-// $(() => {
-$td.on('click', drawBoard())
-// })
-
-// const nextTurn = () => {
-// if (gameStatus == active) {
-
-
-// }
-// }
-
-// const drop = () => {
-// for (row = 5; row >= 0; row--) {
-// if (gameBoard[row][col] == 0) {
-// gameBoard[row][col] = activePlayer
-// drawBoard()
-// if (activePlayer == 1) {
-// activePlayer == 2
-// } else {
-// activePlayer == 1
-// }
-// nextTurn()
-// return true
-// }
-// }
-// }
-// $(() => {
-// startGame
-// })
-// const winCheck = () => {
-
-// }
 
 
 
-// forEach(cell in gameBoard) {
-//   $('canvas').drawRect
-
-// }
-// const playerColor = []
-// const gameBoard = [
-//   [0, 0, 0, 0, 0, 0, 0], //grid[0](row1)
-//   [0, 0, 0, 0, 0, 0, 0], //grid[1](row2)
-//   [0, 0, 0, 0, 0, 0, 0], //grid[2](row3)
-//   [0, 0, 0, 0, 0, 0, 0], //grid[3](row4)
-//   [0, 0, 0, 0, 0, 0, 0], //grid[4](row5)
-//   [0, 0, 0, 0, 0, 0, 0] //grid[5](row6)
-// ]
-// }
-// const createCell = () => {
-//   let $cell = $('<div></div>')
-//   $cell.appendTo('#grid')
-//   for (let row = 0; row < gameBoard.grid.length; row++) {
-//     for (let col = 0; col < gameBoard.grid[row].length; col++) {
-//       $cell
-//         .append('<div>')
-//         .css({
-//           backgroundColor: 'blue'
-//         })
-//     }
-//   }
-// }
-// // $(() => {
-// createCell()
-// })
-// gameBoard.grid.forEach(cell => {
-//   cell = gameBoard.grid[row][col]
-//   console.log(cell)
-// })
 
 
-// let grid[i] = row
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // let col = grid[i + 1]
 // console.log(grid)
 // const selectCol = (col) => {
@@ -268,12 +238,9 @@ $td.on('click', drawBoard())
 //     grid[5][col] = 1
 //     player = 1
 //   }
-
 // }
-
 //user selects column, on click returns  column number
 // build grid and cells
-
 /* Create a new board of squares, 42 squares where you have one container representing
 the whole thing. Then 7 containers to represent the width from left to right one square
 across and 6 up. Each of these 7 containers are going to have an event handler.

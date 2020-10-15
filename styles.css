@@ -16,7 +16,8 @@ body {
 }
 
 h1,
-h3 {
+h3,
+.container {
   font-family: 'ITC Avant Garde Gothic Bold', 'Helvetica Neue';
   color: white;
   text-shadow: 0 0 10px black;
@@ -40,7 +41,7 @@ td {
 
 .container {
   display: inline-block;
-  margin: 0 auto;
+  margin: auto;
   size: auto;
 }
 
