@@ -106,7 +106,7 @@ const checkHorizontal = (column, row, currentPlayer) => {
   }
   if (checkWin >= 4) {
     $h3.text(`${activePlayer} WINS!!!`)
-    console.log(`${activePlayer} wins!!`, checkWin)
+    // console.log(`${activePlayer} wins!!`, checkWin)
     endGame()
   }
 }
@@ -115,7 +115,7 @@ const checkVertical = (column, row, currentPlayer) => {
   let checkWin = 1
   for (let i = row - 1; i >= 0; i--) {
     if (grid[i][column] === currentPlayer) {
-      console.log(row, column)
+      // console.log(row, column)
       checkWin += 1
     } else {
       break
@@ -130,7 +130,7 @@ const checkVertical = (column, row, currentPlayer) => {
   }
   if (checkWin >= 4) {
     $h3.text(`${activePlayer} WINS!!!`)
-    console.log(`${activePlayer} wins!!`, checkWin)
+    // console.log(`${activePlayer} wins!!`, checkWin)
     endGame()
   }
 }
