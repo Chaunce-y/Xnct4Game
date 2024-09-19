@@ -183,7 +183,7 @@ const startGame = () => {
     let row = currentBoard[column]
     if (row >= 0) {
       currentPlayer = playerTurn()
-      $(e.target).css('background-color', activePlayer) // Set background color to active player's color
+      $(e.target).addClass(activePlayer === playerColor.player1Color ? 'player1' : 'player2'); // Set background color to active player's color
       dropPiece(e, column, row, currentPlayer)
       checkWin(column, row, currentPlayer)
     }
