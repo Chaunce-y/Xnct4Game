@@ -1,5 +1,5 @@
-//Connect 4
-//Functions:
+// Connect 4
+// Functions:
 /*
 getGrid()
 drawBoard()
@@ -35,7 +35,7 @@ let grid = getGrid(6, 7)
 const dropPiece = (event, column, row, currentPlayer) => {
   let $coord = $(`#${row}${column}`)
   grid[row][column] = currentPlayer
-  $coord.css('background-color', activePlayer)
+  $coord.css('background-color', activePlayer) // Setting the background color to the active player's color
   currentBoard[column] -= 1
 }
 
@@ -55,11 +55,12 @@ const endGame = () => {
   // $playAgain.on('click', refreshPage)
 }
 
+// Check upward diagonal win condition
 const checkUpwardDiagonal = (column, row, currentPlayer) => {
   let checkWin = 1
   let upward = row - 1
   let downward = row + 1
-  for (let i = column + 1; i == grid[0].length; i++) {
+  for (let i = column + 1; i < grid[0].length; i++) {
     if (upward < 0) {
       break
     }
@@ -83,7 +84,40 @@ const checkUpwardDiagonal = (column, row, currentPlayer) => {
   }
   if (checkWin >= 4) {
     $h3.text(`${activePlayer} WINS!!!`)
-    // console.log(`${activePlayer} wins!!`, checkWin)
+    endGame()
+  }
+}
+
+// Check downward diagonal win condition
+const checkDownwardDiagonal = (column, row, currentPlayer) => {
+  let checkWin = 1
+  let downward = row + 1
+  let upward = row - 1
+
+  // Checking downward right
+  for (let i = column + 1; i < grid[0].length; i++) {
+    if (downward >= grid.length) break;
+    if (grid[downward][i] === currentPlayer) {
+      checkWin += 1;
+    } else {
+      break;
+    }
+    downward += 1;
+  }
+
+  // Checking upward left
+  for (let i = column - 1; i >= 0; i--) {
+    if (upward < 0) break;
+    if (grid[upward][i] === currentPlayer) {
+      checkWin += 1;
+    } else {
+      break;
+    }
+    upward -= 1;
+  }
+
+  if (checkWin >= 4) {
+    $h3.text(`${activePlayer} WINS!!!`)
     endGame()
   }
 }
@@ -106,7 +140,6 @@ const checkHorizontal = (column, row, currentPlayer) => {
   }
   if (checkWin >= 4) {
     $h3.text(`${activePlayer} WINS!!!`)
-    // console.log(`${activePlayer} wins!!`, checkWin)
     endGame()
   }
 }
@@ -115,7 +148,6 @@ const checkVertical = (column, row, currentPlayer) => {
   let checkWin = 1
   for (let i = row - 1; i >= 0; i--) {
     if (grid[i][column] === currentPlayer) {
-      // console.log(row, column)
       checkWin += 1
     } else {
       break
@@ -130,141 +162,48 @@ const checkVertical = (column, row, currentPlayer) => {
   }
   if (checkWin >= 4) {
     $h3.text(`${activePlayer} WINS!!!`)
-    // console.log(`${activePlayer} wins!!`, checkWin)
     endGame()
   }
 }
 
+// Check all win conditions (vertical, horizontal, diagonal)
 const checkWin = (column, row, currentPlayer) => {
-  // Check Vertical
   checkVertical(column, row, currentPlayer)
   checkHorizontal(column, row, currentPlayer)
   checkUpwardDiagonal(column, row, currentPlayer)
+  checkDownwardDiagonal(column, row, currentPlayer) // Added downward diagonal check
 }
 
+// Start the game
 const startGame = () => {
 
-  const drawBoard = () => {
-    $('.cell').on('click', (e) => {
-      let id = $(e.target).attr('id')
-      let column = parseInt(id.charAt(1))
-      let row = currentBoard[column]
-      if (row >= 0) {
-        currentPlayer = playerTurn()
-        $(e.target).toggleClass(activePlayer)
-        dropPiece(e, column, row, currentPlayer)
-        checkWin(column, row, currentPlayer)
-      }
-    })
+  const drawBoard = (e) => {
+    let id = $(e.target).attr('id')
+    let column = parseInt(id.charAt(1))
+    let row = currentBoard[column]
+    if (row >= 0) {
+      currentPlayer = playerTurn()
+      $(e.target).css('background-color', activePlayer) // Set background color to active player's color
+      dropPiece(e, column, row, currentPlayer)
+      checkWin(column, row, currentPlayer)
+    }
   }
-  $td.on('click', drawBoard())
+  $td.on('click', drawBoard) // Assign the click event handler
 }
 
+// Switch players
 const playerTurn = () => {
   if (activePlayer == playerColor.player1Color) {
     $h3.text(`Current player: ${activePlayer}`)
     activePlayer = playerColor.player2Color
-    // Return integer 2 represents player 2
-    return 2
+    return 2 // Return integer 2 for player 2
   } else {
     $h3.text(`Current player: ${activePlayer}`)
     activePlayer = playerColor.player1Color
-    // Return integer 1 represents player 1
-    return 1
+    return 1 // Return integer 1 for player 1
   }
 }
 
 $(() => {
   startGame()
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let col = grid[i + 1]
-// console.log(grid)
-// const selectCol = (col) => {
-//   if (player == 1) {
-//     grid[5][col] = 1
-//     player = 1
-//   }
-// }
-//user selects column, on click returns  column number
-// build grid and cells
-/* Create a new board of squares, 42 squares where you have one container representing
-the whole thing. Then 7 containers to represent the width from left to right one square
-across and 6 up. Each of these 7 containers are going to have an event handler.
-On the onclick event handler, one square going up turns red or black depending on
-who's turn it is.
-id="row=0, col=1"
-win = False -> True
-player1 = true/false
-Onclick function:
-	move = evenHandler
-	if player1{
-		player1 = false
-	}
-	else{
-		player1 = True
-	}
-	- function (addSquare)
-		Check to see what player
-		and get red or black
-	function (makeMove)
-		- Making the move
-		- function (addSquare)
-		- function (displayBoard)
-	function (checkMove(move))
-	if win:
-		function (Win)
-function (displayWinningPage */
