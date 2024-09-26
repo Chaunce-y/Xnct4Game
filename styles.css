@@ -26,18 +26,6 @@ table {
   border-spacing: 0
 }
 
-td {
-  background: rgb(167, 167, 29);
-  padding: 0;
-  border: 7px solid yellow;
-  border-radius: 50%;
-  box-shadow: inset 0px 0px 7px 4px #4d4e57e3;
-}
-
-td:hover {
-  border-color: orange; /* Highlight cells on hover */
-}
-
 .container {
   display: inline-block;
   margin: auto;
@@ -66,6 +54,40 @@ td:hover {
   transition: background-color 0.3s ease; /* Smooth transition when color changes */
 }
 
+/* Floating piece for the sliding drop animation */
+.piece {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
+  transition: top 0.5s ease-out;
+  animation: drop 0.6s ease-out; /* Slightly longer duration for bounce */
+}
+
+.player1-piece {
+  background-color: black; /* Player 1 piece */
+}
+
+.player2-piece {
+  background-color: red; /* Player 2 piece */
+}
+
+td {
+  user-select: none;
+  outline: none;
+  background: rgb(167, 167, 29);
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: inset 0px 0px 7px 4px #4d4e57e3; /* Default inner shadow */
+  transition: box-shadow 0.3s ease; /* Smooth transition */
+}
+
+/* Hover effect for the game cells*/
+td:hover {
+  cursor: pointer;
+}
+
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
   .gameBoard {
@@ -77,6 +99,29 @@ td:hover {
     font-size: 30px; /* Adjust font size for smaller screens */
   }
 }
+
+/* Keyframes for the drop animation (if needed) */
+@keyframes drop {
+  0% {
+    transform: translateY(-100%);
+  }
+  85% {
+    transform: translateY(0); /* Reaches the bottom */
+  }
+  92% {
+    transform: translateY(-50px); /* Bounce slightly upwards */
+  }
+  100% {
+    transform: translateY(0); /* Settle back down */
+  }
+}
+
+/* Drop animation for the pieces */
+.drop-animation {
+  animation: drop 0.75s cubic-bezier(.25,.46,.45,.94); /* Smooth drop animation */
+}
+
+
 
 /* @keyframes redBlue {
 from {background-color: green;}

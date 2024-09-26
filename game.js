@@ -177,7 +177,61 @@ const checkWin = (column, row, currentPlayer) => {
 // Start the game
 const startGame = () => {
 
+  $('td').attr('tabindex', '-1');
+
   const drawBoard = (e) => {
+    let id = $(e.target).attr('id'); // Get the ID of the clicked cell
+    let column = parseInt(id.charAt(1)); // Extract the column number from the ID
+    let row = currentBoard[column]; // Get the lowest available row in the column
+    
+    if (row >= 0) {
+      currentPlayer = playerTurn(); // Switch to the next player
+  
+      // Create a floating div to represent the piece
+      let $piece = $('<div></div>').addClass('piece drop-animation'); // Create the floating piece div
+      $piece.addClass(activePlayer === playerColor.player1Color ? 'player1-piece' : 'player2-piece'); // Set player color
+  
+      // Get the initial top position (start from top of the container) and align it with the column
+      let columnTop = $container.offset().top; // Get the container's top position
+      let columnLeft = $(`#${row}${column}`).offset().left; // Get the left position of the column
+  
+      // Set the initial position of the piece at the top of the container
+      $piece.css({
+        top: columnTop + 'px', // Start at the top of the container
+        left: columnLeft + 'px', // Align with the column
+        position: 'absolute', // Position it absolutely
+        zIndex: 10 // Ensure it appears above other elements
+      });
+  
+      // Append the floating piece to the game container
+      $('.container').append($piece);
+  
+      // Get the final position where the piece should land
+      let finalPosition = $(`#${row}${column}`).offset().top;
+  
+      // Animate the piece falling to the correct row
+      setTimeout(() => {
+        $piece.css({
+          top: finalPosition + 'px' // Move to the lowest available cell
+        });
+      }, 50); // Slight delay to trigger the animation
+  
+      // After the piece finishes dropping, set it in place and remove the floating div
+      setTimeout(() => {
+        
+        $(`#${row}${column}`).css({
+          'background-color': activePlayer, // Set the final background color in the actual cell
+          'box-shadow': `inset 0 0 15px ${activePlayer}` // Set the shadow
+        });
+        $piece.remove(); // Remove the floating div after placing the piece
+      }, 750); // This matches the transition duration of 0.6s
+  
+      dropPiece(e, column, row, currentPlayer); // Update the game logic
+      checkWin(column, row, currentPlayer); // Check for a win
+    }
+  };
+  
+  /*const drawBoard = (e) => {
     let id = $(e.target).attr('id')
     let column = parseInt(id.charAt(1))
     let row = currentBoard[column]
@@ -187,7 +241,8 @@ const startGame = () => {
       dropPiece(e, column, row, currentPlayer)
       checkWin(column, row, currentPlayer)
     }
-  }
+  }*/
+  
   $td.on('click', drawBoard) // Assign the click event handler
 }
 
